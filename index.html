@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manali Trip Planning</title>
+</head>
+<body>
+<button id="planTripButton">Plan Trip</button>
+<div id="tripStatus"></div>
+<script>
+// Simulate asynchronous tasks with promises
+const bookHotel = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('Hotel booked');
+  }, 1000);
+});
+
+const bookTransportation = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('Transportation booked');
+  }, 1500);
+});
+
+const explore = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('Explored local attractions');
+  }, 2000);
+});
+
+const eat = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('Found great places to eat');
+  }, 1200);
+});
+
+const returnTrip = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('Returned from the trip');
+  }, 800);
+});
+
+// Event listener for planning the trip
+const planTripButton = document.getElementById('planTripButton');
+const tripStatusElement = document.getElementById('tripStatus');
+
+planTripButton.addEventListener('click', async () => {
+  try {
+    const results = await Promise.all([
+      bookHotel,
+      bookTransportation,
+      explore,
+      eat,
+    ]);
+    const tripStatus = results.join(', ');
+    tripStatusElement.textContent = `Trip status: ${tripStatus}`;
+    await returnTrip;
+    tripStatusElement.textContent = `${tripStatus}, Trip completed`;
+  } catch (error) {
+    tripStatusElement.textContent = `An error occurred: ${error}`;
+  }
+});
+</script>
+</body>
+</html>
